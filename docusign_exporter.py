@@ -44,7 +44,10 @@ class DocusignService(object):
     def get_documents(self):
         if self.envelopes:
             for envelope in self.envelopes:
-                envelop_dir = os.path.join('.', envelope['envelopeId'])
+                envelop_dir = os.path.join('.', '{}-{}'.format(
+                    envelope['statusChangedDateTime'],
+                    envelope['envelopeId']
+                ))
                 print('Downloading envelope: {}'.format(envelope['envelopeId']))
                 if not os.path.exists(envelop_dir):
                     os.mkdir(envelop_dir)
