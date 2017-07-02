@@ -1,7 +1,9 @@
+from __future__ import print_function
 import requests
 import json
 import os
 import sys
+
 
 class DocusignService(object):
     def __init__(
@@ -28,7 +30,7 @@ class DocusignService(object):
         if response.ok:
             return response.json()
         else:
-            print response.json()
+            print(response.json())
             sys.exit()
 
     def get_envelopes(self):
@@ -39,7 +41,6 @@ class DocusignService(object):
                 response = self.session.get(self.base_url + response.json()['nextUri'])
                 if response.ok:
                     self.envelopes.extend(response.json()['envelopes'])
-
 
     def get_documents(self):
         if self.envelopes:
@@ -56,25 +57,27 @@ class DocusignService(object):
                     envelope_documents = response.json()['envelopeDocuments']
                     for document in envelope_documents:
                         print('Downloading document: {}'.format(document['name']))
-                        with open(os.path.join(envelop_dir, document['name']), 'wb+') as file:
+                        with open(os.path.join(envelop_dir, document['name']), 'wb+') as f:
                             content = self.session.get(self.base_url + document['uri'])
                             if content.ok:
-                                file.write(content.content)
+                                f.write(content.content)
 
                 response = self.session.get(self.base_url + envelope['recipientsUri'])
                 if response.ok and response.json():
-                    for reciepient_type in response.json().keys():
-                        if reciepient_type in ['currentRoutingOrder', 'recipientCount']:
+                    for recipient_type in response.json().keys():
+                        if recipient_type in ['currentRoutingOrder', 'recipientCount']:
                             continue
-                        if response.json()[reciepient_type]:
-                            with open(os.path.join(envelop_dir, reciepient_type), 'wb+') as file:
-                                json.dump(response.json()[reciepient_type], file)
+                        if response.json()[recipient_type]:
+                            with open(os.path.join(envelop_dir, recipient_type), 'wb+') as f:
+                                json.dump(response.json()[recipient_type], f)
 
 
-
-if __name__ == '__main__':
+def main():
     args = sys.argv
     if '--help' in args or '-h' in args:
-        print 'usage: python docusign-exporter.py [email] [password] [integrator_key]'
+        print('usage: python docusign-exporter.py [email] [password] [integrator_key]')
     else:
         DocusignService(*args[1:])
+
+if __name__ == '__main__':
+    main()
