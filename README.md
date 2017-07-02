@@ -5,3 +5,5 @@ A simple tool to bulk export all documents / contracts / envelopes from your Doc
 install with: `pip install docusign_exporter`
 
 usage: `docusign_exporter [email] [password] [integrator_key]`
+
+This service is provided by [SignRequest](https://signrequest.com) for free.
