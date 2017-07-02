@@ -16,7 +16,7 @@ def read(fname):
 
 setup(
     name="docusign_exporter",
-    version='1.0.2',
+    version='1.0.3',
     author="Michaël Krens",
     author_email="michael@signrequest.com",
     description="A simple tool to bulk export / download all documents from your DocuSign account using the API.",

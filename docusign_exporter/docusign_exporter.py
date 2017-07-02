@@ -26,7 +26,7 @@ class DocusignService(object):
         }
 
         self.session.headers['X-DocuSign-Authentication'] = json.dumps(auth_data)
-        response = self.session.get('https://demo.docusign.net/restapi/v2/login_information')
+        response = self.session.get('https://www.docusign.net/restapi/v2/login_information')
         if response.ok:
             return response.json()
         else:
