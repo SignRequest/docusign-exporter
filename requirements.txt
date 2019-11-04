@@ -1,1 +1,1 @@
-requests[security]==2.18.1
+requests[security]==2.20.0
